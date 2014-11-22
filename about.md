@@ -4,8 +4,12 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+My name is Homer Huang. I am a software geek. I am involved in
 
-You can find the source code for the Jekyll new theme at: [github.com/jglovier/jekyll-new](https://github.com/jglovier/jekyll-new)
+* Software Deployment Automation (Python)
+* System Integration (RHEL, KVM, OpenStack)
+* System Performance Tuning (RHEL)
+* Network Engineering (CDMA, LTE, IP)
+* Java EE Development (WebLogic, JBoss)
+* Modern C++ Development (C++11, C++14)
 
-You can find the source code for Jekyll at [github.com/jekyll/jekyll](https://github.com/jekyll/jekyll)
