@@ -10,7 +10,7 @@ categories: jekyll update
 * [Apache Cordova](http://cordova.apache.org) (Recommended by [Visual Studio](http://www.visualstudio.com/news/vs2013-community-vs))
   * Coding with HTML5, CSS3, and JavaScript. 
 * [Qt](http://qt-project.org/doc/qt-5/supported-platforms.html#mobile-platforms)
-  * Coding with C++
+  * Coding with QML and C++
 
 无论哪种方式，都需要安装相关平台开发工具
 
