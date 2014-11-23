@@ -24,4 +24,5 @@ categories: jekyll update
 iOS 需先熟悉 [Objective-C](http://en.wikipedia.org/wiki/Objective-C)， 
 推荐这本大而全的书
 
+* [iOS 7 Programming Fundamentals](http://www.it-ebooks.info/book/3084/)
 * [Programming iOS 7, 4th Edition](http://www.it-ebooks.info/book/3138/)
