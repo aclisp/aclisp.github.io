@@ -5,9 +5,16 @@ date:   2014-11-22 22:22:00
 categories: jekyll update
 ---
 
+因受一个创业朋友所托，有空研究了一下开发手机应用的一些要点。
+
 # 开发工具
 
-起初，我的想法是利用跨平台开发工具。这样做的好处是只需要维护一套代码。我找了这样一些工具：
+起初，我的想法是利用跨平台开发工具。这样做的好处是
+
+1. 只需要维护一套代码；
+2. 利用现有的前端HTML5或者后端C++开发技能。
+
+我找了这样一些工具：
 
 * [Apache Cordova](http://cordova.apache.org) (Recommended by [Visual Studio](http://www.visualstudio.com/news/vs2013-community-vs))
   * Coding with HTML5, CSS3, and JavaScript. 
