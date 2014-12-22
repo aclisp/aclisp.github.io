@@ -13,3 +13,12 @@ categories: jekyll update
 在那个时刻，我恰好是初学者。于是听得云里雾里。
 
 还是得下来找[书](http://slides.com/homerhuang/openstack-readings)看。 
+
+* Deploying OpenStack 
+* OpenStack Cloud Computing Cookbook, 2nd Edition
+
+还有一些进阶知识，放在明年的计划中：
+
+- 部署案例
+- 应用方向
+- 模块架构
