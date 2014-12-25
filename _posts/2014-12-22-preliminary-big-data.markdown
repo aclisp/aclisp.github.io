@@ -18,7 +18,9 @@ When I am studing the Consistent hashing, I get [The Programmer's Toolbox](http:
 - NoSQL
     + Redis - Key-value store
     + MongoDB - Document store
-    + Cassandra - Wide column store
+    + Cassandra - [Wide column store](http://nosqlguide.com/column-store/nosql-databases-explained-wide-column-stores/)
+    + [Types of NoSQL datastores](http://www.thoughtworks.com/insights/blog/nosql-no-problem-intro-nosql-databases)
+    + [Visual Guide to NoSQL Systems](http://blog.nahurst.com/visual-guide-to-nosql-systems)
 - Apache Spark
 - Elasticsearch/Lucene
 
