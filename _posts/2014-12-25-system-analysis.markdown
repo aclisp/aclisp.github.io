@@ -13,7 +13,7 @@ categories: jekyll update
 
 我的回答是肯定的：如果是别人，不一定能比我做的更好。
 
-当系统大到一定的程度，则会牵一发而动全身。这样的“大”系统就是电信接入网以及核心网。产品经理想加新功能，例如3G到4G的升级，或者提升性能，他要面对的问题之一就是新的功能对整个系统有多大影响，能带来多大收益。普通程序员是没法告诉他答案的，他自己应该也算不出来。这时，一份靠谱的系统分析报告简直就是雪中送炭。
+当系统大到一定的程度，则会牵一发而动全身。这样的“大”系统就是电信接入网以及核心网。产品经理想加新功能，例如系统升级(1xRTT -> 1xAdvanced, 引入EVDO)，或者提升性能(处理单元全替换成高密度板)，他要面对的问题之一就是新的功能对整个系统有多大影响，能带来多大收益。普通程序员是没法告诉他答案的，他自己应该也算不出来。这时，一份靠谱的系统分析报告简直就是雪中送炭。
 
 > Systems analysis is also an explicit formal inquiry carried out to help someone (referred to as the decision maker) identify a better course of action and make a better decision than she might otherwise have made.
 
