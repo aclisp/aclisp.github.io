@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "自画像"
-date:   2014-12-19 20:30:00
+date:   2014-12-19
 categories: jekyll update
 ---
 

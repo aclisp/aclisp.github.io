@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "大数据初探"
-date:   2014-12-22 23:41:00
+date:   2014-12-22
 categories: jekyll update
 ---
 

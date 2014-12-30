@@ -1,19 +1,16 @@
 ---
 layout: post
-title:  "Large-scale Python"
-date:   2014-12-29 22:00:00
+title:  "Large-scale Python (1)"
+date:   2014-12-29
 categories: jekyll update
 ---
 
-这一年百分之七十的时间都在做 Python 相关的工作。Python 语言的轻便、灵巧，让码工时间充满快感，创意连连。而 Java 却是啰嗦，极其的啰嗦。玩了一段时间 Django [^Django] 之后，越发的喜爱上了这门语言。
+这一年百分之七十的时间都在做 Python 相关的工作。Python 语言的轻便、灵巧，让码工时间充满快感，创意连连。而 Java 却是啰嗦，极其的啰嗦。玩了一段时间 Django[^Django] 之后，越发的喜爱上了这门语言。
 
-本文拟从以下几个方面来探讨 Python [^CPy] 在 Large-scale [^LS] 项目中的一些应用要点，内容都是满满的原创经验：
+本文拟从以下几个方面来探讨 Python[^CPy] 在 Large-scale[^LS] 项目中的一些应用要点，内容都是满满的原创经验：
 
-* Python 的项目构建
-    - 语言风格
-    - IDE
-    - 测试
-* Python 的代码编写
+* [Python 的项目构建]({% post_url 2014-12-29-large-scale-python-1 %})
+* [Python 的代码编写]({% post_url 2014-12-30-large-scale-python-2 %})
     - 基础库
     - 再来点封装
     - 最终用户态
@@ -79,14 +76,12 @@ categories: jekyll update
 
 在不同的构建环境(例如 UserHome 或者 Jenkins-CI Slave)中如何让 project-1 和 project-2 顺利发现 common-libs 并依赖[^Dep]之完成构建？这个问题在 Java 世界里很好解决：假如 common-libs 的产出是 jar 包，
 
-```bash
-cd common-libs
-mvn install (or mvn deploy)
-cd ../project-1
-mvn deploy
-cd ../project-2
-mvn deploy
-```
+    cd common-libs
+    mvn install (or mvn deploy)
+    cd ../project-1
+    mvn deploy
+    cd ../project-2
+    mvn deploy
 
 在不搭建内部 [PyPI][PyPI] 的前提下，这个问题一直没有找到一个完美的解决方案。实际操作中，是让 `cd common-libs; mvn install` 调用至 `python setup.py install --user`，在本地安装 common-libs。
 
@@ -97,7 +92,10 @@ mvn deploy
 
 程序员都是个性动物。
 
+## IDE
 
+
+---
 [^Django]: Django 大约是 Python 世界中的 Spring Framework。
 [^LS]: 又名企业级。特点是开发人员多，业务量大，接口多样，架构不定复杂。
 [^CPy]: 以下出现的 Python 字样特指 [CPython](http://en.wikipedia.org/wiki/CPython)。

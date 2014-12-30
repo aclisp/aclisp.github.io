@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "开发手机 App"
-date:   2014-11-22 22:22:00
+date:   2014-11-22
 categories: jekyll update
 ---
 

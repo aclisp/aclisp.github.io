@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "闲话系统分析"
-date:   2014-12-25 20:28:00
+date:   2014-12-25
 categories: jekyll update
 ---
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "OpenStack 学记"
-date:   2014-12-08 22:47:00
+date:   2014-12-08
 categories: jekyll update
 ---
 
