@@ -96,7 +96,7 @@ categories: jekyll update
 
 ## 语言风格
 
-```
+```css
 .element {
   ...
 }
