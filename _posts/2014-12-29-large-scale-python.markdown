@@ -26,8 +26,6 @@ categories: jekyll update
 * Python 的软件发布
     - Virtualenv
 
-- - - 
-
 # Python 的项目构建
 
 新项目的构建要解决的问题如下：
@@ -61,7 +59,7 @@ categories: jekyll update
 
 [^RDA]: 能直接安装至目标系统的服务配置包。
   
-## 解决模块重用
+## 模块重用
 
 经过一段时间的演化，project-1 和 project-2 的公用部分被独立出来成为新的 common-libs 
 
@@ -69,7 +67,7 @@ categories: jekyll update
     ├── common-libs
     ├── project-1
     └── project-2
-    
+
 或者项目代码跨越了 git 库
 
     git-repo-1 
@@ -79,14 +77,16 @@ categories: jekyll update
     ├── project-1
     └── project-2
 
-在不同的构建环境(例如 UserHome 或者 Jenkins-CI Slave)中如何让 project-1 和 project-2 顺利发现 common-libs 并依赖[^Dep]之完成构建？这个问题在 Java 世界里很好解决：假如 common-libs 的产出是 jar 包。
+在不同的构建环境(例如 UserHome 或者 Jenkins-CI Slave)中如何让 project-1 和 project-2 顺利发现 common-libs 并依赖[^Dep]之完成构建？这个问题在 Java 世界里很好解决：假如 common-libs 的产出是 jar 包，
 
-    cd common-libs
-    mvn install (or mvn deploy)
-    cd ../project-1
-    mvn deploy
-    cd ../project-2
-    mvn deploy
+```bash
+cd common-libs
+mvn install (or mvn deploy)
+cd ../project-1
+mvn deploy
+cd ../project-2
+mvn deploy
+```
 
 在不搭建内部 [PyPI][PyPI] 的前提下，这个问题一直没有找到一个完美的解决方案。实际操作中，是让 `cd common-libs; mvn install` 调用至 `python setup.py install --user`，在本地安装 common-libs。
 
@@ -97,11 +97,6 @@ categories: jekyll update
 
 程序员都是个性动物。
 
-- - -
-
-# 结论 
-
-- - -
 
 [^Django]: Django 大约是 Python 世界中的 Spring Framework。
 [^LS]: 又名企业级。特点是开发人员多，业务量大，接口多样，架构不定复杂。
