@@ -58,7 +58,7 @@ categories: jekyll update
 4. 存放 [Lettuce Feature 文件](http://lettuce.it/tutorial/simple.html#tutorial-simple)
 5. 存放 Python 的 UT 和 FT
 
-它与 GitHub 上标准的 Python 项目（如 [Django](https://github.com/django/django)）不同。后者是纯粹的 Python 包，用于发布 [PyPI][PyPI]。而企业闭门开发，需要利用已有的 maven 仓库；同时这里[^RDA]更需要一种混合包，以 Python 实现为主体，有限度集成 Shell 脚本。
+它与 GitHub 上标准的 Python 项目（如 [Django](https://github.com/django/django)）不同。后者是纯粹的 Python 包，用于发布 [PyPI][PyPI]。而企业闭门开发，需要利用内部的 maven 仓库；同时这里[^RDA]更需要一种混合包，以 Python 实现为主体，有限度集成 Shell 脚本。
 
 [^RDA]: 能直接安装至目标系统的服务配置包。
   
