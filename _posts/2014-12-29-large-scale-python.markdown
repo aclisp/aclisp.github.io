@@ -10,7 +10,6 @@ categories: jekyll update
 本文拟从以下几个方面来探讨 Python [^CPy] 在 Large-scale [^LS] 项目中的一些应用要点，内容都是满满的原创经验：
 
 * Python 的项目构建
-    - Maven 吗？
     - 语言风格
     - IDE
     - 测试
@@ -96,18 +95,11 @@ categories: jekyll update
 
 ## 语言风格
 
-```css
-.element {
-  ...
-}
-```
+程序员都是个性动物。
 
 - - -
 
 # 结论 
-
-
-https://github.com/aclisp/archived/tree/master/scratch-01/mvn-python-packaging
 
 - - -
 
