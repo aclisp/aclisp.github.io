@@ -10,3 +10,4 @@ github_username:  aclisp
 
 # Build settings
 markdown: kramdown
+highlighter: pygments
