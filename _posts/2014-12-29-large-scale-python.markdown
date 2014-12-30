@@ -82,14 +82,12 @@ categories: jekyll update
 
 在不同的构建环境(例如 UserHome 或者 Jenkins-CI Slave)中如何让 project-1 和 project-2 顺利发现 common-libs 并依赖[^Dep]之完成构建？这个问题在 Java 世界里很好解决：假如 common-libs 的产出是 jar 包。
 
-```sh
-cd common-libs
-mvn install (or mvn deploy)
-cd ../project-1
-mvn deploy
-cd ../project-2
-mvn deploy
-```
+    cd common-libs
+    mvn install (or mvn deploy)
+    cd ../project-1
+    mvn deploy
+    cd ../project-2
+    mvn deploy
 
 在不搭建内部 [PyPI][PyPI] 的前提下，这个问题一直没有找到一个完美的解决方案。实际操作中，是让 `cd common-libs; mvn install` 调用至 `python setup.py install --user`，在本地安装 common-libs。
 
