@@ -9,8 +9,8 @@ categories: jekyll update
 
 本文拟从以下几个方面来探讨 Python[^CPy] 在 Large-scale[^LS] 项目中的一些应用要点，内容都是满满的原创经验：
 
-* [Python 的项目构建]({% post_url 2014-12-29-large-scale-python-1 %})
-* [Python 的代码编写]({% post_url 2014-12-30-large-scale-python-2 %})
+* [Python 的项目构建][Series1]
+* [Python 的代码编写][Series2]
     - 基础库
     - 再来点封装
     - 最终用户态
@@ -54,8 +54,6 @@ categories: jekyll update
 
 它与 GitHub 上标准的 Python 项目（如 [Django](https://github.com/django/django)）不同。后者是纯粹的 Python 包，用于发布 [PyPI][PyPI]。而企业闭门开发，需要利用内部的 maven 仓库；同时这里[^RDA]更需要一种混合包，以 Python 实现为主体，有限度集成 Shell 脚本。
 
-[^RDA]: 能直接安装至目标系统的服务配置包。
-  
 ## 模块重用
 
 经过一段时间的演化，project-1 和 project-2 的公用部分被独立出来成为新的 common-libs 
@@ -85,17 +83,41 @@ categories: jekyll update
 
 在不搭建内部 [PyPI][PyPI] 的前提下，这个问题一直没有找到一个完美的解决方案。实际操作中，是让 `cd common-libs; mvn install` 调用至 `python setup.py install --user`，在本地安装 common-libs。
 
-[PyPI]: http://en.wikipedia.org/wiki/Python_Package_Index
-[^Dep]: 事实上 Python 的 Project 构建并没有强依赖关系，不像 Java 缺少必要的 jar 则无法成功编译。但是，在构建的时候使用 Pylint 工具进行伪编译，是控制 Large-scale 项目代码质量的最佳实践。
-
 ## 语言风格
 
-程序员都是个性动物。
+程序员都是个性动物，写出的代码各种风格都有。在大型项目中，统一的代码风格非常有必要。Python 哲学里也有 preferably only one way to do it [^Zen]。流行的 [Lint](http://en.wikipedia.org/wiki/Lint_%28software%29) 工具有这么几种：
+
+* Syntax errors and inconsistencies (using [Pyflakes](https://launchpad.net/pyflakes) or [Pylint](http://www.pylint.org/))
+* [PEP8](https://www.python.org/dev/peps/pep-0008/) violations 
+* [PEP257](https://www.python.org/dev/peps/pep-0257/) violations
+
+这里边，轻量级的是`PEP8`和`Pyflakes`。建议任何时候都开。在你灵感满溢思如泉涌啪啪啪敲键盘时，它们在后台默默的保持最基本检查，绝不干扰思路，充分体现自由。重量级的`Pylint`和`PEP257`可以作为持续集成任务定时对整个代码库检查。当然，如果你是追求完美的处女座，全部打开也没有问题的，妈妈再也不用担心我的代码写的乱七八糟了。
+
+实践中，我们把`Pylint`集成到`maven compile`，使提交入 git 的代码都是 lint 过的。
 
 ## IDE
 
+工欲善其事，必先利其器。好的 IDE 能帮助做这些事情：
+
+* 生成遵循标准化目录结构的项目模板
+* 提供语言风格的检查开关
+* 管理 Python 运行环境
+* 语法高亮
+* 智能提示
+* 自动完成
+
+土豪就上公认神器 [PyCharm](https://www.jetbrains.com/pycharm/) 专业版。否则，Eclipse 装上 [PyDev](http://pydev.org/) 也能凑合。极客就用 Sublime + [Anaconda](http://damnwidget.github.io/anaconda/)，我是用的很高兴的。
+
+本篇到此结束。请看下篇 [Python 的代码编写]({% post_url 2014-12-30-large-scale-python-2 %})。
 
 ---
 [^Django]: Django 大约是 Python 世界中的 Spring Framework。
 [^LS]: 又名企业级。特点是开发人员多，业务量大，接口多样，架构不定复杂。
 [^CPy]: 以下出现的 Python 字样特指 [CPython](http://en.wikipedia.org/wiki/CPython)。
+[^Zen]: [The Zen of Python](https://www.python.org/dev/peps/pep-0020/)
+[^RDA]: 能直接安装至目标系统的服务配置包。
+[^Dep]: 事实上 Python 的 Project 构建并没有强依赖关系，不像 Java 缺少必要的 jar 则无法成功编译。但是，在构建的时候使用 Pylint 工具进行伪编译，是控制 Large-scale 项目代码质量的最佳实践。
+
+[PyPI]: http://en.wikipedia.org/wiki/Python_Package_Index
+[Series1]: {% post_url 2014-12-29-large-scale-python-1 %}
+[Series2]: {% post_url 2014-12-30-large-scale-python-2 %}
