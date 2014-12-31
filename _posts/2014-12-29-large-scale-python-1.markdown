@@ -108,7 +108,7 @@ categories: jekyll update
 
 土豪就上公认神器 [PyCharm](https://www.jetbrains.com/pycharm/) 专业版。否则，Eclipse 装上 [PyDev](http://pydev.org/) 也能凑合。极客就用 Sublime + [Anaconda](http://damnwidget.github.io/anaconda/)，我是用的很高兴的。
 
-本篇到此结束。请看下篇 [Python 的代码编写]({% post_url 2014-12-30-large-scale-python-2 %})。
+本篇到此结束。请看下篇 [Python 的代码编写][Series2]。
 
 ---
 [^Django]: Django 大约是 Python 世界中的 Spring Framework。
