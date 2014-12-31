@@ -9,19 +9,9 @@ categories: jekyll update
 
 本文拟从以下几个方面来探讨 Python[^CPy] 在 Large-scale[^LS] 项目中的一些 __应用和实践__，内容都是满满的原创经验：
 
-* [Python 的项目构建][Series1]
+* Python 的项目构建
 * [Python 的代码编写][Series2]
-    - 基础库
-    - 再来点封装
-    - 最终用户态
-    - 设计模式，回调和函数式
-* Python 的运行时
-    - 性能
-    - GC
-    - C10k
-    - 优化
-* Python 的软件发布
-    - Virtualenv
+* [Python 的运行时][Series3]
 
 # Python 的项目构建
 
@@ -91,7 +81,7 @@ categories: jekyll update
 * [PEP8](https://www.python.org/dev/peps/pep-0008/) violations 
 * [PEP257](https://www.python.org/dev/peps/pep-0257/) violations
 
-这里边，轻量级的是`PEP8`和`Pyflakes`。建议任何时候都开。在你灵感满溢思如泉涌啪啪啪敲键盘时，它们在后台默默的保持最基本检查，绝不干扰思路，充分体现自由。重量级的`Pylint`和`PEP257`可以作为持续集成任务定时对整个代码库检查。当然，如果你是追求完美的处女座，全部打开也没有问题的，妈妈再也不用担心我的代码写的乱七八糟了。
+这里边，轻量级的是`PEP8`和`Pyflakes`。建议任何时候都开。当你灵感满溢思如泉涌啪啪啪敲键盘时，它们在后台默默的保持最基本检查，绝不干扰思路，充分体现自由。重量级的`Pylint`和`PEP257`可以作为持续集成任务定时对整个代码库检查。当然，如果你是追求完美的处女座，全部打开也没有问题的，妈妈再也不用担心我的代码写的乱七八糟了。
 
 实践中，我们把`Pylint`集成到`maven compile`，使提交入 git 的代码都是 lint 过的。
 
@@ -121,3 +111,5 @@ categories: jekyll update
 [PyPI]: http://en.wikipedia.org/wiki/Python_Package_Index
 [Series1]: {% post_url 2014-12-29-large-scale-python-1 %}
 [Series2]: {% post_url 2014-12-30-large-scale-python-2 %}
+[Series3]: {% post_url 2014-12-31-large-scale-python-3 %}
+
