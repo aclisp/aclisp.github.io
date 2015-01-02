@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-My name is Homer Huang. I am a [software developer](http://en.wikipedia.org/wiki/Software_developer) and [systems analyst](http://en.wikipedia.org/wiki/Systems_analyst) with more than 10 years experiences. I am involved in
+My name is Homer Huang. I am a [software developer](http://en.wikipedia.org/wiki/Software_developer) and [systems analyst](http://en.wikipedia.org/wiki/Systems_analyst) with more than 10 years experience. I am involved in
 
 * Modern C++ Development (C++11, C++14)
 * Java EE Development (WebLogic, JBoss)
