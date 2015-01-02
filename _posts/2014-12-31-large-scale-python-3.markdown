@@ -29,7 +29,11 @@ Python 使用基于引用计数的 GC。官方 FAQ 里有一些[思考](https://
 
 ## 优化
 
-提高效率的诀窍在于更深入的研究，这本书的[目录列表](http://www.effectivepython.com)可以看看。
+提高 Python 代码运行效率的诀窍无他，在于更深入的研究和长时间的磨练：
+
+* 理解 Python 的对象模型[^e1][^e2]。话说，让我的 C++ 技能登堂入室的一本书[^e3]也是讲对象模型的。学语言的历程还真是异曲同工。
+* 如果你跟我一样是半路出家，跟其它语言多多横向比较[^e4]
+* 读一本好书。例如这本书，光看看[目录列表](http://www.effectivepython.com)就会有不少收获。
 
 # 结束语
 
@@ -37,6 +41,10 @@ Python 使用基于引用计数的 GC。官方 FAQ 里有一些[思考](https://
 
 ---
 [^select]: Nginx 的文档里有个[详细说明](http://nginx.org/en/docs/events.html)。 
+[^e1]: ["How to think like a Pythonista"](http://python.net/crew/mwh/hacks/objectthink.html)
+[^e2]: [Goodger, David. "Code Like a Pythonista: Idiomatic Python"](http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html)
+[^e3]: [Stanley B. Lippman. _Inside the C++ Object Model_](http://book.douban.com/subject/1484262/)
+[^e4]: ["Python Is Not Java"](http://dirtsimple.org/2004/12/python-is-not-java.html)
 
 [Series1]: {% post_url 2014-12-29-large-scale-python-1 %}
 [Series2]: {% post_url 2014-12-30-large-scale-python-2 %}
