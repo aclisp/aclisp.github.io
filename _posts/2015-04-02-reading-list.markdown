@@ -15,3 +15,5 @@ categories: blog
 * Lightweight Django
 * Spring in Action
 * Android Hacker's Handbook
+
+这几本书几乎都是同步的在读。它们也是以后我做设计和架构的参考。
