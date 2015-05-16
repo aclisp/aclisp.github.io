@@ -9,12 +9,15 @@ categories: blog
 
 # 编程语言
 
-为了效率和节省资源，选了C++。
+为了效率和节省资源，选了Go。
 
 * 首先，需要一种静态强类型语言，编译期就能发现大多数错误。Python之流马上出局。
-* 其次，不能用带GC的语言，因为打算放在日常PC后台运行，内存受限。
+* 其次，不能用基于JVM的语言，因为打算放在日常PC后台运行，内存用的越少越好。
   - 实际上Scala是一种设计极好的语言，但这次不用它。
-  - Go也是带GC的，而且不熟悉。
+* 最终，可选的有
+  - C++，老牌语言。
+  - Go，工程语言。带GC。
+  - Rust，新生语言。问题是太新，1.0版本对并发几乎没有语言级别的支持。
 
 # 编程框架
 
@@ -24,7 +27,13 @@ categories: blog
 * ACE 基本没有封装，写起来细节太多太烦。
 * POCO 只有一个可怜的Reactor，不支持真异步。
 
-最终选Qt。其文档完备，类库丰富，接口人性化。最重要的，Qt程序必然自带事件循环，自然的，所有组件的调用方式必然支持真异步。
+C++的话，必然选Qt。其文档完备，类库丰富，接口人性化。最重要的，Qt程序必然自带事件循环，自然的，所有组件的调用方式必然支持真异步。
+
+# HTML解析
+
+爬虫一个最重要的功能就是抓取超链接。
+
+Qt解析HTML有点麻烦，要用第三方的TidyLib[^QtHTML]。Go有HTML5解析器的[实现](http://godoc.org/golang.org/x/net/html)。
 
 # 异步IO详解
 
@@ -52,6 +61,8 @@ categories: blog
   - 上层应用协议的超时机制，只能程序员自己实现。
   - 显而易见，这是性能和扩展性最好的方式。也是所谓的“真异步”。
 
+# 反应堆模式
+
 非阻塞的编程模型非常复杂，对程序员非常的不友好。于是后人把它们封装并抽象成两种模式：
 
 * Reactor
@@ -65,13 +76,23 @@ categories: blog
 
 值得注意的是，Proactor可以用Reactor来实现。这样的话，等同于Proactor框架模拟内核来做了IO的读写操作。于是，用户界面是统一的。流行的异步IO库必须做了这样的封装。[^BoostAsio]
 
-TODO 协程（Coroutine）
+如果选C++，那就只能到此为止。可以想象，用VS+Qt做开发的样子。但问题是Qt库太大了……而且编程语言发展到今天，我们已经有了更好的方式来支持并发。
 
+# 并发
 
+即使反应堆模式给非阻塞的编程模型带来了极大的简化，人们总是不满足的。反应堆模式的问题是会造成callback hell。Qt的signal/slot机制已经做得很好，但在今天这个新语言井喷得年代，把并发做到语言内建（或库）支持才是王道。
 
+并发的处理总结起来有这么几种：
 
+* 协程（[Coroutine](http://en.wikipedia.org/wiki/Coroutine)） 最著名的是C#和Python的async/await语法，同步的写法来实现异步。
+* [Actor](http://en.wikipedia.org/wiki/Actor_model) 由Erlang和Scala采用。
+* [LWP](http://en.wikipedia.org/wiki/Light-weight_process) 最著名的是goroutine。
+
+不得不说，Go的思路真是非常的工程化[^AsyncGo]和简单粗暴：咱就用同步的方式来写，如果系统支持不了这么多线程，那就让语言运行时搞定；作为用户没有必要知道太多，异步……那是什么？
 
 
 ---
 [^TrueAsync]: [Reactor and Proactor: two I/O multiplexing approaches](http://www.artima.com/articles/io_design_patterns2.html)
 [^BoostAsio]: [Proactor and Boost.Asio](http://www.boost.org/doc/libs/1_58_0/doc/html/boost_asio/overview/core/async.html)
+[^AsyncGo]: [Async IO Part 1 – Go vs. Node.js](http://www.reddit.com/r/golang/comments/25iic3/async_io_part_1_go_vs_nodejs/)
+[^QtHTML]: [Handling HTML in Qt](https://wiki.qt.io/Handling_HTML)
