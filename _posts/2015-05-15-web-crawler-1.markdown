@@ -85,11 +85,12 @@ Qt解析HTML有点麻烦，要用第三方的TidyLib[^QtHTML]。Go有HTML5解析
 并发的处理总结起来有这么几种：
 
 * 协程（[Coroutine](http://en.wikipedia.org/wiki/Coroutine)） 最著名的是C#和Python的async/await语法，同步的写法来实现异步。
-* [Actor](http://en.wikipedia.org/wiki/Actor_model) 由Erlang和Scala采用。
 * [LWP](http://en.wikipedia.org/wiki/Light-weight_process) 最著名的是goroutine。
+* [Actor](http://en.wikipedia.org/wiki/Actor_model) 由Erlang和Scala采用。
 
 不得不说，Go的思路真是非常的工程化[^AsyncGo]和简单粗暴：咱就用同步的方式来写，如果系统支持不了这么多线程，那就让语言运行时搞定；作为用户没有必要知道太多，异步……那是什么？
 
+对于Actor模型，我的理解它是自治的，封闭的。没有办法与已有的IO原语集成。换句话说，IO仍然要借助其他模型。只是在内部处理上，可以实现Parallel Pipelines模式。
 
 ---
 [^TrueAsync]: [Reactor and Proactor: two I/O multiplexing approaches](http://www.artima.com/articles/io_design_patterns2.html)
