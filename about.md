@@ -2,6 +2,7 @@
 layout: page
 title: About
 permalink: /about/
+no_duoshuo: true
 ---
 
 My name is Homer Huang. I am a [software developer](http://en.wikipedia.org/wiki/Software_developer) and [systems analyst](http://en.wikipedia.org/wiki/Systems_analyst) with more than 10 years experience. I am involved in
