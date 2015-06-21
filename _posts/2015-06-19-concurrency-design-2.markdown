@@ -2,12 +2,9 @@
 layout: post
 title:  "并发设计 (2)"
 date:   2015-06-19
+summary: "异步HTTP服务"
 categories: blog
 ---
-
-这里总结一下常见的几种异步模式。
-
-# HTTP的异步请求处理
 
 HTTP通信经过了这些演化：
 
