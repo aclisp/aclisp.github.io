@@ -1,40 +1,12 @@
 # Site settings
 title: The Planar Sphere
 email: aclisp@gmail.com
-author: Homer Huang
 description: > # this means to ignore newlines until "baseurl:"
   My Personal Research Place
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://aclisp.github.io" # the base hostname & protocol for your site
-
-#Duoshuo short Name / 多说的shortname
-duoshuo: aclisp
-
-#Baidu analytics / 百度统计(异步的js码，注意使用异步版本的)
-baidu_analyze: f138cc155760893b12b5b73bbee3b710
-
-# Google analytics
-google_analytics:
-
-# Optional features
-animated:           false
-show_related_posts: false
-show_post_footers:  false
-
-# Social icons
-show_social_icons: false
-github_username: aclisp
-twitter_username:
-google_plus_id:
-linkedin_username:
-bitcoin_url:
-paypal_url:
-flattr_button:
+twitter_username: 
+github_username:  aclisp
 
 # Build settings
 markdown: kramdown
-permalink: pretty
-paginate: 5
-sass:
-  compressed: true
-
