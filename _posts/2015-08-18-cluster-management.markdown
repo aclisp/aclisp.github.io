@@ -42,9 +42,9 @@ categories: blog
 
 > Building custom framework and leveraging open source.
 
-## 核心需求
+## 调度策略的难题
 
-为了设计一个跟公司业务紧密契合的集群管理系统，首先要澄清核心需求。
+就像Linux Kernel书首先会讲进程调度，集群管理系统首先要研究的也是调度策略。
 
 业务一般有两大类：服务（long-running services, 如 [RDS](https://aws.amazon.com/rds/mysql/)）和任务（batch jobs, 如 Hadoop）。它们有不同的特征，前者一般是[IO密集型](http://en.wikipedia.org/wiki/I/O_bound)，后者一般是[CPU密集型](http://en.wikipedia.org/wiki/CPU-bound)。对计算节点的性能容量要求各不相同。因此，对调度算法的要求也会不同。
 
@@ -52,29 +52,35 @@ categories: blog
 
 ## 有哪些调度策略
 
-* Monolithic
-* Statically partitioned
-* Two-level ([Mesos](http://mesos.apache.org/documentation/latest/mesos-architecture/), [YARN](http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html))
-* Shared-state ([Omega](http://research.google.com/pubs/pub41684.html)) 
+*   Monolithic
+    所有的任务用同一种算法调度。YARN，Borg和Kubernetes都用这种。
+	
+*   Statically partitioned
+    固定分配，专机专用。基本谈不上调度了。例如Hadoop早期版本（[YARN](http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html)出现之前）。
+    
+*   Two-level ([Mesos](http://mesos.apache.org/documentation/latest/mesos-architecture/))
+	中心管理器收集可用资源作为Offer提供给用户，再由用户自定义任务的分配策略。
 
-TODO: Kubernetes 的调度策略有待研究。
+*   Shared-state ([Omega](http://research.google.com/pubs/pub41684.html))
+    竞争式乐观锁分配。只是Omega的设想，好不好用谁也不知道。 
 
 ## 为什么要用 Docker
 
-通过深度定制 OpenStack，其实基于 VM 的分配策略已经很完善了。想用 Docker 是因为 VM 的 OS 虚拟层损耗让共享分配策略得不偿失。
+通过深度定制 OpenStack，其实基于 VM 的分配策略已经很完善了。想用 Docker 是因为 VM 的 OS 虚拟层损耗让共享分配得不偿失。
 
 ## 除了调度策略，还有哪些坑
 
-* 搭建 Docker Registry
-* 构建业务的 Docker Image
-* 规划 Docker 的网络和存储
-* 服务发现和负载均衡
-* 业务接入、扩容、缩容、升级、下线的工作流
-* 跟 OpenStack 集成
-* 支持大规模集群
-* 性能和时延是否满足业务要求
+*   搭建 Docker Registry
+*   构建业务的 Docker Image
+*   规划 Docker 的网络和存储
+*   服务发现和负载均衡
+*   业务接入、扩容、缩容、升级、下线的工作流
+*   跟 OpenStack 集成
+*   支持大规模集群
+*   性能和时延是否满足业务要求
 
 
+**加插招聘广告**：欢聚时代(YY/多玩)广州总部的欢聚云平台研发部招人!! 如果你喜欢纯技术的工作，对大型互联网企业的服务化平台有兴趣，愿意在架构的成长期还可以大展拳脚的时候加盟，请电邮 <huanghao@yy.com>
 
 
 
