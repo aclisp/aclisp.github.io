@@ -20,11 +20,11 @@ categories: blog
 
 |          | 单机操作系统 Linux | 集群操作系统 Mesos|
 | -------- | :-----: | :-----: |
-隔离机制 | 进程 Process 提供地址空间和文件描述符的隔离 | 容器 LXC 提供CPU, Memory, FileSystem等的隔离 |       
-共享机制 | FileSystem, IPC | Distributed-FS, Network
-调度机制 | Process Scheduler 保证多个进程共享几个CPU | 同样有机制保证多个集群应用的每个只占用一小块数据中心资源
-抽象机制 | read(), write(), open(), bind(), connect() 这些系统调用抽象了不同的硬件和网络 | launchTask(), killTask(), statusUpdate() 这些API抽象了部署位置和远程通信，不再直接跟socket和pid打交道
-包管理机制 | apt-get, yum | Docker
+| 隔离机制 | 进程 Process 提供地址空间和文件描述符的隔离 | 容器 LXC 提供CPU, Memory, FileSystem等的隔离 |       
+| 共享机制 | FileSystem, IPC | Distributed-FS, Network |
+| 调度机制 | Process Scheduler 保证多个进程共享几个CPU | 同样有机制保证多个集群应用的每个只占用一小块数据中心资源 |
+| 抽象机制 | read(), write(), open(), bind(), connect() 这些系统调用抽象了不同的硬件和网络 | launchTask(), killTask(), statusUpdate() 这些API抽象了部署位置和远程通信，不再直接跟socket和pid打交道 |
+| 包管理机制 | apt-get, yum | Docker |
 
 # 为什么要有集群管理系统
 
