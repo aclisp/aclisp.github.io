@@ -81,15 +81,15 @@ RESTful调用容易被忽视的问题，就是如何进行认证。这里采用�
 
 # 准备好这些可执行文件
 
-| 文件名 | 运行在容器外 | 运行在容器内 | Kubernetes推荐 |
+| 文件名 | 运行在容器外 | 运行在容器内 | 运行方式 |
 | -------- | :-----: | :-----: | :-----: |
-| docker | X | - | Run as system daemon on every node |
-| kubelet | X | - | Run as system daemon on every node |
-| kube-proxy | X | - | Run as system daemon on every node |
-| etcd | ? | X | Use gcr.io/google_containers/hyperkube:$TAG | 
-| kube-apiserver | ? | X | Use gcr.io/google_containers/hyperkube:$TAG |
-| kube-controller-manager | ? | X | Use gcr.io/google_containers/hyperkube:$TAG |
-| kube-scheduler | ? | X | Use gcr.io/google_containers/hyperkube:$TAG |
+| docker | X | - | 系统服务 |
+| kubelet | X | - | 系统服务 |
+| kube-proxy | X | - | 系统服务 |
+| etcd | - | X | Image+Pod | 
+| kube-apiserver | - | X | Image+Pod |
+| kube-controller-manager | - | X | Image+Pod |
+| kube-scheduler | - | X | Image+Pod |
 
 ## 安装软件到 Node
 
@@ -164,6 +164,8 @@ TODO：非常有技术含量的问题，会另起一篇再讲。
 
 * their options are specified in a Pod spec (yaml or json) rather than an /etc/init.d file or systemd unit.
 * they are kept running by Kubernetes rather than by init.
+
+因此，要先把它们变成 Image。
 
 累了，下次再写。
 
