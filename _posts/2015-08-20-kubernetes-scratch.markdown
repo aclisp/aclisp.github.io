@@ -13,7 +13,7 @@ categories: blog
 
 # Build from source
 
-Kubernetes是在Docker容器里构建的。真是可重复构建 (REPEATABLE BUILDS）被应用的典范。不用纠结于用什么版本的GCC，又缺了哪个版本的动态链接库等等龟毛的问题。只要装了Docker就成。构建环境也推荐使用 Ubuntu 14.04。
+Kubernetes是在Docker容器里构建的。真是可重复构建（REPEATABLE BUILDS）被应用的典范。不用纠结于用什么版本的GCC，又缺了哪个版本的动态链接库等等龟毛问题。只要装了Docker就成。构建环境也推荐使用 Ubuntu 14.04。
 
 构建过程需要至少3G内存，并会下载一个500M+的Image。需自备梯子。
 
@@ -95,9 +95,11 @@ RESTful调用容易被忽视的问题，就是如何进行认证。这里采用�
 
 每个 Node 要跑三个服务。注意每个 Node 不必是同等配置，可以有随意的 Core 和内存。
 
-* docker
-* kubelet
-* kube-proxy
+| 服务名 | 主要功能 | 如何保证高可用性 | 特别注意 |
+| ----- | ------- | -------- | --------|
+| docker | 本机容器管理 | systemd/upstart | 不用 `docker0`，不用 iptables |
+| kubelet | Kubernetes管理 | systemd/upstart | 创建 `cbr0` 给 docker 用 |
+| kube-proxy (可选) | 服务发现和负载均衡 | systemd/upstart | 接管 iptables |
 
 ### docker 
 
@@ -112,27 +114,31 @@ RESTful调用容易被忽视的问题，就是如何进行认证。这里采用�
 		ifconfig docker0 down
 		brctl delbr docker0
 
-与用什么样的网络规划有关，需要设置下面这些默认的 docker options，一般是在 `/etc/default/docker` 里改。
+与用什么样的网络规划有关，需要设置下面这些 docker options，一般是在 `/etc/default/docker` 里改。
 
-* create your own bridge for the per-node CIDR ranges, call it `cbr0`, and set `--bridge=cbr0` option on docker.
-* set `--iptables=false` so docker will not manipulate iptables for host-ports (too coarse on older docker versions, may be fixed in newer versions) so that kube-proxy can manage iptables instead of docker.
-* `--ip-masq=false` ??? TODO
-* `--mtu=` may be required when using Flannel, because of the extra packet size due to udp encapsulation
+* `--bridge=cbr0` 由 kubelet 创建的 `cbr0`。
+* `--iptables=false` iptables 将由 kube-proxy 接管。
+* `--ip-masq=false` 
+* `--mtu=` may be required when using Flannel, because of the extra packet size due to udp encapsulation.
 * `--insecure-registry $CLUSTER_SUBNET` to connect to a private registry, if you set one up, without using SSL.
 * `DOCKER_NOFILE=1000000`
 
-阅读材料 [Docker Networking](https://docs.docker.com/articles/networking/) 一定要细读。
-
 ### kubelet
+
+**Kubernetes 核心组件，将会集成到 CoreOS 中！**
 
 需要考虑的参数：
 
-* `--kubeconfig=/var/lib/kubelet/kubeconfig`
-* `--api-servers=http://$MASTER_IP`
-* `--config=/etc/kubernetes/manifests` ???
-* `--configure-cbr0=` (described above)
-* `--register-node` (参见 [Kubernetes Node 扫盲](TODO))
-	
+* `--config=/etc/kubernetes/manifests` Pod template 都放入这里。
+* `--configure-cbr0=true` 创建 Node 时，让 kubelet 根据 `Node.Spec.PodCIDR` 配置 `cbr0`。kubelet 会等到 NodeController 设置了 `Node.Spec.PodCIDR` 之后才配置 `cbr0`. 
+* `--register-node=false` 不采用自注册本机 Node，手工通过 apiserver 创建 Node。手工创建的 Node 由 NodeController 做 health checking，一旦失联则 Pod 不会被调度到其之上。
+
+只有 `--register-node=true` 时，才要再考虑下列参数：
+
+* `--kubeconfig=/var/lib/kubelet/kubeconfig` tells kubelet where to find credentials to authenticate itself to the apiserver. (笔者注：就是用 `kubectl config` 创建的文件吧？)
+* `--api-servers=http://$MASTER_IP` tells the kubelet the location of the apiserver.
+* `--cloud-provider=` tells the kubelet how to talk to a cloud provider to read metadata about itself.
+
 ### kube-proxy
 
 需要考虑的参数：
@@ -140,10 +146,49 @@ RESTful调用容易被忽视的问题，就是如何进行认证。这里采用�
 * `--kubeconfig=/var/lib/kube-proxy/kubeconfig`
 * `--api-servers=http://$MASTER_IP`
 
-
 ## Node 的网络规划 
 
-TODO：非常有技术含量的问题，会另起一篇再讲。
+Kubernetes 必须用（某种意义上的）扁平网络，但是我们的托管主机只有一个出口，主机之间没有公共的 router/switch。这就需要做虚拟交换。简单先用着 [Flannel](https://github.com/coreos/flannel)。
+
+| Scope   | 解释                                            | 最大数量 |
+| :-----: | ----------------------------------------------- | :---: |
+| Cluster | 每个`10.x`(x=0-255)都是一个cluster，我们只用`10.10`    | 256 |
+| Node    | `10.10.0.0/24` 至 `10.10.255.0/24` 每个都是一个node   | 256 |
+| Pod     | `10.10.x.2/32` 至 `10.10.x.254/32` 位于第 x 个node   | 253 | 
+| cbr0    | 一般 `Node.Spec.PodCIDR` 的第一个 IP 给 bridge        | - |
+
+例如：
+
+* 通过 apiserver 创建第一个 Node，对应的 `Node.Spec.PodCIDR` 则为 `10.10.0.0/24`
+* 通过 apiserver 创建第二个 Node，对应的 `Node.Spec.PodCIDR` 则为 `10.10.1.0/24`
+* 以此类推……
+
+剩下的问题是 Node_1 与 Node_2 之间如何互通。考虑这样一种状况：
+
+* `Node_1_cbr0` 获得 IP `10.10.0.1/24`
+* `Node_1_Pod_1` 获得 IP `10.10.0.2/24`
+* `Node_2_cbr0` 获得 IP `10.10.1.1/24`
+* `Node_2_Pod_1` 获得 IP `10.10.1.2/24`
+
+`Node_1_Pod_1` 发包到 `Node_2_Pod_1` 经历这样一个过程：
+
+1. `Node_1_Pod_1` -> `Node_1_cbr0` -> `Node_1_flannel0` -> `Node_1_flanneld` -> `Node_1_eth0`
+2. `Node_1_eth0` -> Internet -> `Node_2_eth0` (UDP TUNNEL)
+3. `Node_2_Pod_1` <- `Node_2_cbr0` <- `Node_2_flannel0` <- `Node_2_flanneld` <- `Node_2_eth0`
+
+请自行脑补L2/L3/ARP/IP等底层协议栈的详细过程。
+
+## Node 的调度算法
+
+* kube-scheduler 尝试在“最佳” Node 上创建 Pod；如果一个 Node 都找不到，则等待直到有这样的 Node。
+* “最佳” Node 如何定义呢？
+	1. Node 和 Pod 的 Label 要匹配
+	2. 已用资源与请求资源之和不大于 Node 容量
+	3. 如果多个 Node 满足前二，进入优先级考查
+* 优先级如何考查呢？scheduler 对满足条件的所有 Node 做分级：
+	- 已用资源是最少的 Node 最优先
+
+调度算法已经被设计成 plugin，不爽可以修改定制。
 
 ## Node 其他
 
@@ -167,7 +212,9 @@ TODO：非常有技术含量的问题，会另起一篇再讲。
 
 因此，要先把它们变成 Image。
 
-累了，下次再写。
+TODO
+
+
 
 ---
 
@@ -177,3 +224,5 @@ TODO：非常有技术含量的问题，会另起一篇再讲。
 2. [Docker Networking](https://docs.docker.com/articles/networking/)
 3. [Kubernetes Networking](https://github.com/kubernetes/kubernetes/blob/master/docs/admin/networking.md)
 4. [Four ways to connect a docker container to a local network](http://blog.oddbit.com/2014/08/11/four-ways-to-connect-a-docker/)
+5. [How to understand Linux bridge](http://unix.stackexchange.com/questions/191174/how-to-understand-virtual-switch-in-linux)
+6. [How does Kubernetes' scheduler work](http://stackoverflow.com/questions/28857993/how-does-kubernetes-scheduler-work)
