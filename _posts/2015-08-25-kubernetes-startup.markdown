@@ -5,16 +5,19 @@ date:   2015-08-25
 categories: blog
 ---
 
+* TOC
+{:toc}
+
 这次咱们直接开始启动一个 Kubernetes 集群。只记录过程，Know Why 参考上一篇。
 
 # 本机 VirtualBox 环境
 
-| Machine   | IP             | #Core | Mem (G) | Network |
-| --------- | -------------- | :---: | :---: | ------- |
-| Desktop   | 192.168.56.1   | 4     | 8     | - |
-| VM dev    | 192.168.56.101 | 4     | 1     | host-only |
-| VM node-1 | 192.168.56.102 | 2     | 0.5   | host-only |
-| VM node-2 | 192.168.56.103 | 2     | 0.5   | host-only |
+| Machine   | IP             | #Core | Mem (G) | Network | Role  |
+| --------- | -------------- | :---: | :---: | :-------: | :---: |
+| Desktop   | 192.168.56.1   | 4     | 8     | - | - |
+| VM dev    | 192.168.56.101 | 4     | 1     | host-only | master, minion |
+| VM node-1 | 192.168.56.102 | 2     | 0.5   | host-only | minion |
+| VM node-2 | 192.168.56.103 | 2     | 0.5   | host-only | minion |
 
 dev, node-1 和 node-2 作为 Kubernetes 集群的三个 Node，其 IP `192.168.56.0/24` 是本机唯一出口。建立 Kubernetes 网络规划如下：
 
@@ -100,8 +103,74 @@ kubelet 配置如下：
 
 ## 注册 Node
 
+# Boot _minion_ Node
 
+**以下步骤必须按顺序执行！** 所有进程都起在前台，以后再进行服务化。
 
+## 停止 docker
 
+    service docker stop
+
+    brctl show
+    ip link set dev docker0 down
+    brctl delbr docker0
+
+    iptables -t nat -n -L
+    iptables -t nat -F
+
+## 启动 flanneld
+
+* `--iface=eth0`
+* `--etcd-endpoints=http://$MASTER_IP:4001`
+
+`/run/flannel/subnet.env` 里有 `FLANNEL_SUBNET` 和 `FLANNEL_MTU`
+
+## 创建 cbr0
+
+    brctl addbr cbr0
+    ip addr add $FLANNEL_SUBNET dev cbr0
+    ip link set dev cbr0 up
+
+    ip addr show cbr0
+
+## 启动 docker
+
+docker daemon 配置如下：
+
+* `--bridge=cbr0`
+* `--iptables=false`
+* `--ip-masq=false`
+* `--mtu=$FLANNEL_MTU`
+
+## 启动 kubelet
+
+kubelet 配置如下：
+
+* `--config=/etc/kubernetes/manifests`
+* `--configure-cbr0=false`
+* `--register-node=false`
+
+## 注册 Node
+
+# 重新回顾 Kubernetes Networking
+
+我的这套设置无疑是满足基本需求的：
+
+* All containers can communicate with all other containers without NAT
+* All nodes can communicate with all containers (and vice-versa) without NAT
+* The IP that a container sees itself as is the same IP that others see it as
+
+细说就是：
+
+* Nodes IP 都是 `10.10.x.1/24` 即 `cbr0` 的 IP，`x` 由 flanneld 分配
+* Containers IP 都从 `10.10.x.2/24` 开始
+* Cluster Subnet 是 `10.10.0.0/16`
+* Containers 想上外网，必须加上 NAT 规则
+
+For example:
+
+    iptables -w -t nat -A POSTROUTING -o eth0 -j MASQUERADE \! -d ${CLUSTER_SUBNET}
+
+This will rewrite the source address from the Container IP to the Node IP for traffic bound outside the cluster (aka SNAT - to make it seem as if packets came from the Node itself), and kernel connection tracking will ensure that responses destined to the node still reach the pod.
 
 
