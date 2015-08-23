@@ -9,28 +9,99 @@ categories: blog
 
 # 本机 VirtualBox 环境
 
-| Machine | IP | Route | CPU | Mem | Network |
-| --- | --- | --- | --- | --- | --- |
-| Desktop | 192.168.56.1 | - | 4 core | 8 G | - |
-| dev | 192.168.56.101 | 192.168.56.1 | 4 core | 1 G | host-only |
-| node-1 | 192.168.56.102 | 192.168.56.1 | 2 core | 512 M | host-only |
-| node-2 | 192.168.56.103 | 192.168.56.1 | 2 core | 512 M | host-only |
+| Machine   | IP             | #Core | Mem (G) | Network |
+| --------- | -------------- | :---: | :---: | ------- |
+| Desktop   | 192.168.56.1   | 4     | 8     | - |
+| VM dev    | 192.168.56.101 | 4     | 1     | host-only |
+| VM node-1 | 192.168.56.102 | 2     | 0.5   | host-only |
+| VM node-2 | 192.168.56.103 | 2     | 0.5   | host-only |
 
-# 启动 docker
+dev, node-1 和 node-2 作为 Kubernetes 集群的三个 Node，其 IP `192.168.56.0/24` 是本机唯一出口。建立 Kubernetes 网络规划如下：
+
+| Hostname | PodCIDR      | 备注 |
+| -------- | ------------ | --- |
+| dev      | 10.10.x.0/24 | 由 flanneld 分配 |
+| node-1   | 10.10.y.0/24 | 由 flanneld 分配 |
+| node-2   | 10.10.z.0/24 | 由 flanneld 分配 |
+
+# Boot _master_ Node
+
+**以下步骤必须按顺序执行！** 所有进程都起在前台，以后再进行服务化。
+
+    MASTER_IP=192.168.56.101
+
+## 停止 docker
+
+    service docker stop
+
+    brctl show
+    ip link set dev docker0 down
+    brctl delbr docker0
+
+    iptables -t nat -n -L
+    iptables -t nat -F
+
+## 启动 etcd
+
+    mkdir -p /var/lib/etcd
+    etcd --data-dir=/var/lib/etcd --listen-client-urls=http://$MASTER_IP:4001 --advertise-client-urls=http://$MASTER_IP:4001
+
+## 启动 flanneld
+
+Push configuration JSON to etcd.
+
+{% highlight json %}
+{
+    "Network": "10.10.0.0/16",
+    "SubnetLen": 24,
+    "Backend": {
+        "Type": "udp",
+        "Port": 7890
+    }
+}
+{% endhighlight %}
+
+    etcdctl --peers=$MASTER_IP:4001 set /coreos.com/network/config "$(<flanneld.json)"
+    etcdctl --peers=$MASTER_IP:4001 ls --recursive -p
+
+flanneld 配置如下：
+
+* `--iface=eth0`
+* `--etcd-endpoints=http://$MASTER_IP:4001`
+
+`/run/flannel/subnet.env` 里有 `FLANNEL_SUBNET` 和 `FLANNEL_MTU`
+
+## 创建 cbr0
+
+    brctl addbr cbr0
+    ip addr add $FLANNEL_SUBNET dev cbr0
+    ip link set dev cbr0 up
+
+    ip addr show cbr0
+
+## 启动 docker
+
+docker daemon 配置如下：
+
+* `--bridge=cbr0`
+* `--iptables=false`
+* `--ip-masq=false`
+* `--mtu=$FLANNEL_MTU`
+
+## 启动 kubelet
+
+kubelet 配置如下：
+
+* `--config=/etc/kubernetes/manifests`
+* `--configure-cbr0=false`
+* `--register-node=false`
+
+## 启动 apiserver controller-manager scheduler
+
+## 注册 Node
 
 
-# 启动 kubelet
 
 
-# 启动 _master_ components
 
-## etcd
-
-## apiserver 
-
-## controller-manager 
-
-## scheduler
-
-# 注册 Node
 
