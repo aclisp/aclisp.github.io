@@ -111,7 +111,8 @@ kubelet 配置如下：
 * `--config=/etc/kubernetes/manifests`
 * `--configure-cbr0=false`
 * `--register-node=false`
-* `--api-servers=http://$MASTER_IP:8080`
+* `--api-servers=$MASTER_IP:8080`
+* `--address=0.0.0.0`
 
 ## 启动 apiserver controller-manager scheduler
 
@@ -178,6 +179,8 @@ kubelet 配置如下：
 * `--config=/etc/kubernetes/manifests`
 * `--configure-cbr0=false`
 * `--register-node=false`
+* `--api-servers=$MASTER_IP:8080`
+* `--address=0.0.0.0`
 
 ## 注册 Node
 
