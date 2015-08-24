@@ -44,6 +44,11 @@ dev, node-1 和 node-2 作为 Kubernetes 集群的三个 Node，其 IP `192.168.
     iptables -t nat -n -L
     iptables -t nat -F
 
+Ubuntu 14.04
+
+    echo manual > /etc/init/docker.override
+    reboot
+
 ## 启动 etcd
 
     mkdir -p /var/lib/etcd
@@ -53,10 +58,15 @@ dev, node-1 和 node-2 作为 Kubernetes 集群的三个 Node，其 IP `192.168.
 
 Push configuration JSON to etcd.
 
+* `10.10.1.0/24` 预留给 service_cluster_ip_range
+* `10.10.10.0/24` 至 `10.10.255.0/24` 预留给 Node
+
 {% highlight json %}
 {
     "Network": "10.10.0.0/16",
     "SubnetLen": 24,
+    "SubnetMin": "10.10.10.0",
+    "SubnetMax": "10.10.255.0",
     "Backend": {
         "Type": "udp",
         "Port": 7890
@@ -75,6 +85,9 @@ flanneld 配置如下：
 `/run/flannel/subnet.env` 里有 `FLANNEL_SUBNET` 和 `FLANNEL_MTU`
 
 ## 创建 cbr0
+
+	ip link set dev cbr0 down
+	brctl delbr cbr0
 
     brctl addbr cbr0
     ip addr add $FLANNEL_SUBNET dev cbr0
@@ -98,8 +111,24 @@ kubelet 配置如下：
 * `--config=/etc/kubernetes/manifests`
 * `--configure-cbr0=false`
 * `--register-node=false`
+* `--api-servers=http://$MASTER_IP:8080`
 
 ## 启动 apiserver controller-manager scheduler
+
+### apiserver
+
+* `--etcd-servers=http://$MASTER_IP:4001`
+* `--service-cluster-ip-range=10.10.1.0/24`
+* `--bind-address=$MASTER_IP`
+* `--insecure-bind-address=0.0.0.0`
+
+### controller-manager
+
+* `--kubeconfig=/root/.kube/config`
+
+### scheduler
+
+* `--kubeconfig=/root/.kube/config`
 
 ## 注册 Node
 
