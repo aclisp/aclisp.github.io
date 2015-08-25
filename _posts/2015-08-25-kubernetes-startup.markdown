@@ -152,10 +152,15 @@ kubelet 配置如下：
 除了不用启动 etcd 和 master components，与 master node 相同。
 
 ## 停止 docker
+
 ## 启动 flanneld
+
 ## 创建 cbr0
+
 ## 启动 docker
+
 ## 启动 kubelet
+
 ## 注册 Node
 
 # 重新回顾 Kubernetes Networking
