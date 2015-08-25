@@ -33,6 +33,11 @@ dev, node-1 和 node-2 作为 Kubernetes 集群的三个 Node，其 IP `192.168.
 
     MASTER_IP=192.168.56.101
 
+## 启动 etcd
+
+    mkdir -p /var/lib/etcd
+    etcd --data-dir=/var/lib/etcd --listen-client-urls=http://$MASTER_IP:4001 --advertise-client-urls=http://$MASTER_IP:4001
+
 ## 停止 docker
 
     service docker stop
@@ -48,11 +53,6 @@ Ubuntu 14.04
 
     echo manual > /etc/init/docker.override
     reboot
-
-## 启动 etcd
-
-    mkdir -p /var/lib/etcd
-    etcd --data-dir=/var/lib/etcd --listen-client-urls=http://$MASTER_IP:4001 --advertise-client-urls=http://$MASTER_IP:4001
 
 ## 启动 flanneld
 
@@ -113,6 +113,7 @@ kubelet 配置如下：
 * `--register-node=false`
 * `--api-servers=$MASTER_IP:8080`
 * `--address=0.0.0.0`
+* `--hostname-override=$FLANNEL_SUBNET_IP`
 
 ## 启动 apiserver controller-manager scheduler
 
@@ -133,55 +134,28 @@ kubelet 配置如下：
 
 ## 注册 Node
 
+    kubectl create -f - <<NODE_JSON
+    {
+      "kind": "Node",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "$FLANNEL_SUBNET_IP"
+      },
+      "spec": {
+        "podCIDR": "$FLANNEL_SUBNET"
+      }
+    }
+    NODE_JSON
+
 # Boot _minion_ Node
 
-**以下步骤必须按顺序执行！** 所有进程都起在前台，以后再进行服务化。
+除了不用启动 etcd 和 master components，与 master node 相同。
 
 ## 停止 docker
-
-    service docker stop
-
-    brctl show
-    ip link set dev docker0 down
-    brctl delbr docker0
-
-    iptables -t nat -n -L
-    iptables -t nat -F
-
 ## 启动 flanneld
-
-* `--iface=eth0`
-* `--etcd-endpoints=http://$MASTER_IP:4001`
-
-`/run/flannel/subnet.env` 里有 `FLANNEL_SUBNET` 和 `FLANNEL_MTU`
-
 ## 创建 cbr0
-
-    brctl addbr cbr0
-    ip addr add $FLANNEL_SUBNET dev cbr0
-    ip link set dev cbr0 up
-
-    ip addr show cbr0
-
 ## 启动 docker
-
-docker daemon 配置如下：
-
-* `--bridge=cbr0`
-* `--iptables=false`
-* `--ip-masq=false`
-* `--mtu=$FLANNEL_MTU`
-
 ## 启动 kubelet
-
-kubelet 配置如下：
-
-* `--config=/etc/kubernetes/manifests`
-* `--configure-cbr0=false`
-* `--register-node=false`
-* `--api-servers=$MASTER_IP:8080`
-* `--address=0.0.0.0`
-
 ## 注册 Node
 
 # 重新回顾 Kubernetes Networking

@@ -59,10 +59,10 @@ RESTful调用容易被忽视的问题，就是如何进行认证。这里采用�
 
 	kubectl config set preferences.colors true
 	kubectl config set-credentials myself --username=admin --password=secret
-	kubectl config set-cluster local-server --server=http://localhost:8080 --insecure-skip-tls-verify=true
-	kubectl config set-context default-context --cluster=local-server --user=myself
+	kubectl config set-cluster kubernetes --server=http://localhost:8080 --insecure-skip-tls-verify=true
+	kubectl config set-context default-context --cluster=kubernetes --user=myself
 	kubectl config use-context default-context
-	kubectl config set contexts.default-context.namespace the-right-prefix
+	kubectl config set contexts.default-context.namespace default
 	kubectl config view
 
 测试一下效果：
