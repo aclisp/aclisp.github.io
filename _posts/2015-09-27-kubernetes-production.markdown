@@ -5,6 +5,8 @@ date:   2015-09-27
 categories: blog
 ---
 
+按照下面的步骤在一个机房的所有主机上依次安装。
+
 * TOC
 {:toc}
 
@@ -50,6 +52,11 @@ users:
 
 ## 安装 k8s 模块到 `/usr/bin`
 
+1. 把编译出的可执行文件 `kubelet` 和 `kube-proxy` 放入 `/usr/bin` 目录下；
+1. 按照操作系统指引建立开机启动的 daemon 进程；
+1. 设置好启动参数；
+1. 设置进程监控 [monit](http://mmonit.com/monit/)
+
 ### 注意这些需要事先确定的变量
 
 * `MASTER_IP` MASTER 主机内网 IP
@@ -72,12 +79,14 @@ users:
     --kubeconfig=/etc/kubeconfig
     --bind-address=${THIS_NODE_IP}
 
+所有主机完成以上步骤之后，开始下面的
+
 # MASTER 主机安装
 
 ## 注意这些需要事先确定的变量
 
 * `NODE_IP` 本主机内网 IP
-* `VIP` 虚拟 IP
+* `VIP` 事先分配好的虚 IP
 
 ## etcd
 
@@ -117,6 +126,12 @@ spec:
       path: /var/lib/etcd
     name: varetcd
 {% endhighlight %}
+
+**注意：**
+
+集群的状态数据保存在 etcd 中。为了防止硬盘挂掉，需要配置多个 etcd 实例（每个 MASTER 主机一个）。例如，配置 3 个实例则取消注释掉的三行。
+
+以下的 kube-* 模块目前只部署在一台 MASTER 主机上。
 
 ## kube-apiserver
 
@@ -199,3 +214,46 @@ spec:
       path: /etc/kubeconfig
     name: kubeconfig
 {% endhighlight %}
+
+## 配置服务
+
+### 对内的 etcd 服务
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Service
+metadata:
+  name: etcd
+spec:
+  ports:
+  - port: 4001
+    protocol: TCP
+{% endhighlight %}
+
+{% highlight yaml %}
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: etcd
+subsets:
+- addresses:
+  - ip: ${MASTER_IP}
+  ports:
+  - port: 4001
+    protocol: TCP
+{% endhighlight %}
+
+# 存活监控
+
+*   kube-proxy 
+    
+        curl http://127.0.0.1:10249/healthz
+
+*   kubelet
+
+        curl http://127.0.0.1:10248/healthz
+
+*   其它
+
+        kubectl get cs
+
