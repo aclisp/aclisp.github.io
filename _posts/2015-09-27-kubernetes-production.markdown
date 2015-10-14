@@ -69,10 +69,10 @@ users:
     --register-node=false
     --address=${THIS_NODE_IP}
     --hostname-override=${THIS_NODE_IP}
-    --host-network-sources="file,api"
+    --host-network-sources=file,api
     --kubeconfig=/etc/kubeconfig
-    --pod-infra-container-image="sigmas/pause:0.8.0"
-    --api-servers="http://${MASTER_IP}:6443"
+    --pod-infra-container-image=sigmas/pause:0.8.0
+    --api-servers=http://${MASTER_IP}:6443
 
 ### `kube-proxy` 启动参数
 
