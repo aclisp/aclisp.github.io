@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Kubernetes 存储设计"
-date:   2016-03-01
+date:   2016-02-29
 categories: blog
 ---
 
