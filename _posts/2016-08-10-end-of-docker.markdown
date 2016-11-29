@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Docker 从入门到放弃"
+title:  "集群管理的设计与实现"
 date:   2016-08-10
 categories: blog
 ---
