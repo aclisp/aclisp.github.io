@@ -1,9 +1,4 @@
----
-layout: post
-title:  "启动 Kubernetes 集群"
-date:   2015-08-25
-categories: blog
----
+# 启动 Kubernetes 集群
 
 * TOC
 {:toc}

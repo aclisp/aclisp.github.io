@@ -1,9 +1,4 @@
----
-layout: post
-title:  "Kubernetes 存储设计"
-date:   2016-02-29
-categories: blog
----
+# Kubernetes 存储设计
 
 # 存储的用法
 

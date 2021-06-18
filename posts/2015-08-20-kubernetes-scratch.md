@@ -1,9 +1,4 @@
----
-layout: post
-title:  "安装 Kubernetes 二三事"
-date:   2015-08-20
-categories: blog
----
+# 安装 Kubernetes 二三事
 
 * TOC
 {:toc}
@@ -25,7 +20,7 @@ Kubernetes是在Docker容器里构建的。真是可重复构建（REPEATABLE BU
 	cd sf_kubernetes/
 	cd build/
 	./run.sh hack/build-go.sh
-	
+
 Build失败竟然会有Stack trace。怎么做到的？写bash也可以到这种程度吗？看来对牛人来说，语言真的不成问题。
 
 由于 Golang 和 Docker Hub 在墙外，遇到超时就在Dockerfile里加上Proxy。**每个Dockerfile都要加！**
@@ -33,7 +28,7 @@ Build失败竟然会有Stack trace。怎么做到的？写bash也可以到这种
 	ENV http_proxy http://192.168.56.1:1080
 	ENV https_proxy http://192.168.56.1:1080
 	ENV no_proxy 127.0.0.1
- 
+
 构建成功之后，在 `../_output/dockerized/bin/linux/amd64/` 下出现一堆可执行文件。
 
 # Configuring kubectl
@@ -53,7 +48,7 @@ RESTful调用容易被忽视的问题，就是如何进行认证。这里采用�
 
 * 使用HTTP
 * 基于用户名/密码认证
-* kubelets, kube-proxy和kubectl用同一用户 
+* kubelets, kube-proxy和kubectl用同一用户
 
 如下命令创建 `~/.kube/config` 配置文件
 
@@ -79,7 +74,7 @@ RESTful调用容易被忽视的问题，就是如何进行认证。这里采用�
 	cp etcd-v2.1.1-linux-amd64/etcd /usr/local/bin/
 	mkdir /var/lib/etcd
 	etcd --data-dir /var/lib/etcd
-	
+
 **etcd推荐用Kubernetes指定的版本**，因为经过了充分的测试。
 
 # 准备好这些可执行文件
@@ -89,7 +84,7 @@ RESTful调用容易被忽视的问题，就是如何进行认证。这里采用�
 | docker | X | - | 系统服务 |
 | kubelet | X | - | 系统服务 |
 | kube-proxy | X | - | 系统服务 |
-| etcd | - | X | Image+Pod | 
+| etcd | - | X | Image+Pod |
 | kube-apiserver | - | X | Image+Pod |
 | kube-controller-manager | - | X | Image+Pod |
 | kube-scheduler | - | X | Image+Pod |
@@ -104,7 +99,7 @@ RESTful调用容易被忽视的问题，就是如何进行认证。这里采用�
 | kubelet | Kubernetes管理 | systemd/upstart | 创建 `cbr0` 给 docker 用 |
 | kube-proxy (可选) | 服务发现和负载均衡 | systemd/upstart | 接管 iptables |
 
-### docker 
+### docker
 
 使用官方最新稳定版。但是需要为Kubernetes做特别配置。
 
@@ -121,7 +116,7 @@ RESTful调用容易被忽视的问题，就是如何进行认证。这里采用�
 
 * `--bridge=cbr0` 由 kubelet 创建的 `cbr0`。
 * `--iptables=false` iptables 将由 kube-proxy 接管。
-* `--ip-masq=false` 
+* `--ip-masq=false`
 * `--mtu=` may be required when using Flannel, because of the extra packet size due to udp encapsulation.
 * `--insecure-registry $CLUSTER_SUBNET` to connect to a private registry, if you set one up, without using SSL.
 * `DOCKER_NOFILE=1000000`
@@ -133,7 +128,7 @@ RESTful调用容易被忽视的问题，就是如何进行认证。这里采用�
 需要考虑的参数：
 
 * `--config=/etc/kubernetes/manifests` Pod template 都放入这里。
-* `--configure-cbr0=true` 创建 Node 时，让 kubelet 根据 `Node.Spec.PodCIDR` 配置 `cbr0`。kubelet 会等到 NodeController 设置了 `Node.Spec.PodCIDR` 之后才配置 `cbr0`. 
+* `--configure-cbr0=true` 创建 Node 时，让 kubelet 根据 `Node.Spec.PodCIDR` 配置 `cbr0`。kubelet 会等到 NodeController 设置了 `Node.Spec.PodCIDR` 之后才配置 `cbr0`.
 * `--register-node=false` 不采用自注册本机 Node，手工通过 apiserver 创建 Node。手工创建的 Node 由 NodeController 做 health checking，一旦失联则 Pod 不会被调度到其之上。
 
 只有 `--register-node=true` 时，才要再考虑下列参数：
@@ -149,7 +144,7 @@ RESTful调用容易被忽视的问题，就是如何进行认证。这里采用�
 * `--kubeconfig=/var/lib/kube-proxy/kubeconfig`
 * `--api-servers=http://$MASTER_IP`
 
-## Node 的网络规划 
+## Node 的网络规划
 
 Kubernetes 必须用（某种意义上的）扁平网络，但是我们的托管主机只有一个出口，主机之间没有公共的 router/switch。这就需要做虚拟交换。简单先用着 [Flannel](https://github.com/coreos/flannel)。
 
@@ -157,7 +152,7 @@ Kubernetes 必须用（某种意义上的）扁平网络，但是我们的托管
 | :-----: | ----------------------------------------------- | :---: |
 | Cluster | 每个`10.x`(x=0-255)都是一个cluster，我们只用`10.10`    | 256 |
 | Node    | `10.10.0.0/24` 至 `10.10.255.0/24` 每个都是一个node   | 256 |
-| Pod     | `10.10.x.2/32` 至 `10.10.x.254/32` 位于第 x 个node   | 253 | 
+| Pod     | `10.10.x.2/32` 至 `10.10.x.254/32` 位于第 x 个node   | 253 |
 | cbr0    | 一般 `Node.Spec.PodCIDR` 的第一个 IP 给 bridge        | - |
 
 例如：

@@ -1,9 +1,4 @@
----
-layout: post
-title:  "《Java SE 8》读书笔记"
-date:   2015-01-22
-categories: blog
----
+# 《Java SE 8》读书笔记
 
 这周看完[《写给大忙人看的Java SE 8》](http://it-ebooks.info/book/3677/)。
 
@@ -25,7 +20,7 @@ Programming with Lambdas 谈到了 [Lazy Evaluation](http://en.wikipedia.org/wik
 值得一提的就是 Composing Asynchronous Operations。这简直是异步编程的春天。这段原文总结得非常好：
 
 > This composability is the key aspect of the CompletableFuture class. Composing future actions solves a serious problem in programming asynchronous applications. The traditional approach for dealing with nonblocking calls is to use event handlers. The programmer registers a handler for the next action after comple- tion. Of course, if the next action is also asynchronous, then the next action after that is in a different event handler. Even though the programmer thinks in terms of “first do step 1, then step 2, then step 3,” the program logic becomes dispersed in different places. It gets worse when one has to add error handling. Suppose step 2 is “the user logs in”; then we may need to repeat that step since the user can mistype the credentials. Trying to implement such a control flow in a set of event handlers, or to understand it once it has been implemented, is challenging.
-> 
+>
 > With completable futures, you just specify what you want to have done, and in which order. It won’t all happen right away, of course, but what is important is that all the code is in one place.
 
 看起来这套解决方案似乎更灵活一些。但我认为 C# 的 [async/await](https://msdn.microsoft.com/en-us/library/hh191443.aspx) 还是更加傻瓜一点。

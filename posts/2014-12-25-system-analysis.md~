@@ -1,11 +1,6 @@
----
-layout: post
-title:  "闲话系统分析"
-date:   2014-12-25
-categories: jekyll update
----
+# 闲话系统分析
 
-> Systems analysis is a problem solving technique that decomposes a system into its component pieces for the purpose of the studying how well those component parts work and interact to accomplish their purpose". 
+> Systems analysis is a problem solving technique that decomposes a system into its component pieces for the purpose of the studying how well those component parts work and interact to accomplish their purpose".
 - [Wikipedia][SA]
 
 从加入北电开始，我做了五年的系统分析工作。时常被人问起：

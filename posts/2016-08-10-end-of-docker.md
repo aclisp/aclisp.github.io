@@ -1,9 +1,4 @@
----
-layout: post
-title:  "集群管理的设计与实现"
-date:   2016-08-10
-categories: blog
----
+# 集群管理的设计与实现"
 
 ![slide1](/assets/mdc/slide1.png)
 ![slide2](/assets/mdc/slide2.png)

@@ -1,9 +1,4 @@
----
-layout: post
-title:  "Large-scale Python (1)"
-date:   2014-12-29
-categories: jekyll update
----
+# Large-scale Python (1)
 
 这一年百分之七十的时间都在做 Python 相关的工作。Python 语言的轻便、灵巧，让码工时间充满快感，创意连连。而 Java 却是啰嗦，极其的啰嗦。玩了一段时间 Django[^Django] 之后，越发的喜爱上了这门语言。
 
@@ -25,7 +20,7 @@ categories: jekyll update
     ├── pom.xml
     └── src
         ├── main
-        │   ├── config        
+        │   ├── config
         │   ├── python        (注1)
         │   ├── rpm-resources (注2)
         │   └── scripts       (注3)
@@ -46,16 +41,16 @@ categories: jekyll update
 
 ## 模块重用
 
-经过一段时间的演化，project-1 和 project-2 的公用部分被独立出来成为新的 common-libs 
+经过一段时间的演化，project-1 和 project-2 的公用部分被独立出来成为新的 common-libs
 
-    git-repo-root 
+    git-repo-root
     ├── common-libs
     ├── project-1
     └── project-2
 
 或者项目代码跨越了 git 库
 
-    git-repo-1 
+    git-repo-1
     └── common-libs
 
     git-repo-2
@@ -78,7 +73,7 @@ categories: jekyll update
 程序员都是个性动物，写出的代码各种风格都有。在大型项目中，统一的代码风格非常有必要。Python 哲学里也有 preferably only one way to do it [^Zen]。流行的 [Lint](http://en.wikipedia.org/wiki/Lint_%28software%29) 工具有这么几种：
 
 * Syntax errors and inconsistencies (using [Pyflakes](https://launchpad.net/pyflakes) or [Pylint](http://www.pylint.org/))
-* [PEP8](https://www.python.org/dev/peps/pep-0008/) violations 
+* [PEP8](https://www.python.org/dev/peps/pep-0008/) violations
 * [PEP257](https://www.python.org/dev/peps/pep-0257/) violations
 
 这里边，轻量级的是`PEP8`和`Pyflakes`。建议任何时候都开。当你灵感满溢思如泉涌啪啪啪敲键盘时，它们在后台默默的保持最基本检查，绝不干扰思路，充分体现自由。重量级的`Pylint`和`PEP257`可以作为持续集成任务定时对整个代码库检查。当然，如果你是追求完美的处女座，全部打开也没有问题的，妈妈再也不用担心我的代码写的乱七八糟了。

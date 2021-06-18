@@ -1,9 +1,4 @@
----
-layout: post
-title:  "固定 docker 容器的 IP"
-date:   2016-04-26
-categories: blog
----
+# 固定 docker 容器的 IP"
 
 # 起因
 

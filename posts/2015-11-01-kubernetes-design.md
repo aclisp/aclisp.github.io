@@ -1,9 +1,4 @@
----
-layout: post
-title:  "Kubernetes 设计思想"
-date:   2015-11-01
-categories: blog
----
+# Kubernetes 设计思想
 
 这篇笔记是我对协议、网络、分布式设计理解集大成者。也是持续思考、持续改进的最佳实践。
 

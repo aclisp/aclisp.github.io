@@ -1,9 +1,4 @@
----
-layout: post
-title:  "Large-scale Python (3)"
-date:   2014-12-31
-categories: jekyll update
----
+# Large-scale Python (3)
 
 上篇谈了 [Python 的代码编写][Series2]，这次讲讲 Python 的运行时。
 
@@ -40,7 +35,7 @@ Python 使用基于引用计数的 GC。官方 FAQ 里有一些[思考](https://
 2014 年最后一天，带着一年来的感悟，完成了这一系列三篇文章。对 Python 的认识，从最初偶尔用用，到现在深度思考。其间各种资料收集不易，各种真知都来自实践，记在这里备查。
 
 ---
-[^select]: Nginx 的文档里有个[详细说明](http://nginx.org/en/docs/events.html)。 
+[^select]: Nginx 的文档里有个[详细说明](http://nginx.org/en/docs/events.html)。
 [^e1]: ["How to think like a Pythonista"](http://python.net/crew/mwh/hacks/objectthink.html)
 [^e2]: [Goodger, David. "Code Like a Pythonista: Idiomatic Python"](http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html)
 [^e3]: [Stanley B. Lippman. _Inside the C++ Object Model_](http://book.douban.com/subject/1484262/)

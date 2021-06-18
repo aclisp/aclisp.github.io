@@ -1,10 +1,4 @@
----
-layout: post
-title:  "并发设计 (3)"
-date:   2015-06-21
-summary: "异步与回调"
-categories: blog
----
+# 并发设计 (3)
 
 异步是实现可扩展系统，支持高并发，提升用户体验的必需手段。早期的异步API是用回调（Callback）来处理结果。如下例，当HTTP GET的结果返回时，我们提供的函数会被调用。值得注意：
 
@@ -51,12 +45,12 @@ var futureFile = getJSONFile(url);
 futureFile.then(function(data) {
     // handle success
 }).ifError(function(err) {
-    // handle error    
+    // handle error
 }).setTimeout(2000).ifTimedout(function() {
     // handle timeout
 });
 // If canceled, none of above happens.
-futureFile.cancel(); 
+futureFile.cancel();
 {% endhighlight %}
 
 Future模式远比使用者看到的界面要复杂。

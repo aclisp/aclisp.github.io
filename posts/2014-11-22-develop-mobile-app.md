@@ -1,9 +1,4 @@
----
-layout: post
-title:  "开发手机 App"
-date:   2014-11-22
-categories: jekyll update
----
+# 开发手机 App
 
 因受一个创业朋友所托，有空研究了一下开发手机应用的一些要点。
 
@@ -17,7 +12,7 @@ categories: jekyll update
 我找了这样一些工具：
 
 * [Apache Cordova](http://cordova.apache.org) (Recommended by [Visual Studio](http://www.visualstudio.com/news/vs2013-community-vs))
-  * Coding with HTML5, CSS3, and JavaScript. 
+  * Coding with HTML5, CSS3, and JavaScript.
 * [Qt](http://qt-project.org/doc/qt-5/supported-platforms.html#mobile-platforms)
   * Coding with QML and C++
 
@@ -36,7 +31,7 @@ categories: jekyll update
 
 * [Head First Android Development](http://www.it-ebooks.info/book/644/)
 
-iOS 需先熟悉 [Objective-C](http://en.wikipedia.org/wiki/Objective-C)， 
+iOS 需先熟悉 [Objective-C](http://en.wikipedia.org/wiki/Objective-C)，
 然后循序渐进阅读下列书：
 
 * [iOS 7 Programming Fundamentals](http://www.it-ebooks.info/book/3084/)

@@ -1,9 +1,4 @@
----
-layout: post
-title:  "Large-scale Python (2)"
-date:   2014-12-30
-categories: jekyll update
----
+# Large-scale Python (2)
 
 上篇谈了 [Python 的项目构建][Series1]，这次讲讲 Python 的代码编写。
 
@@ -57,7 +52,7 @@ business_func(ng.nodes())
 
 这段代码用 [mypy][mypy] 处理会输出：
 
-    base_libs.py, line 30: Argument 1 to "business_func" has incompatible 
+    base_libs.py, line 30: Argument 1 to "business_func" has incompatible
     type List[Node]; expected List[str]
 
 看到了吗，熟悉的 Java 又回来了。[Mypy][mypy] 是 Python 之父 Guido [钦点](https://mail.python.org/pipermail/python-ideas/2014-August/028618.html)的类型检查工具。

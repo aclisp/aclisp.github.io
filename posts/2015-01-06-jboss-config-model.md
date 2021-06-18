@@ -1,9 +1,4 @@
----
-layout: post
-title:  "JBoss Configuration Model"
-date:   2015-01-06
-categories: jekyll update
----
+# JBoss Configuration Model
 
 今天完成并验证了 `jboss-config` 的原型，剩下的都是往上堆代码加功能的体力活了。
 
@@ -11,7 +6,7 @@ categories: jekyll update
 
 * 安装 JBoss 包至目标系统
 * 在目标系统配置 JBoss 的多个运行实例
-* 每个运行实例都是裁剪过的 `jboss-subsystem` 
+* 每个运行实例都是裁剪过的 `jboss-subsystem`
 * 由可配置的输入选项控制裁剪过程
 * 自动化以上过程
 
@@ -28,7 +23,7 @@ categories: jekyll update
     - Location of the JVM (JAVA_HOME)
     - Location of the JBoss Binary Package (JBOSS_HOME)
     - Location of the JBoss Runtime (JBOSS_BASE_DIR)
-    - Default input options 
+    - Default input options
         + Management username/password
         + Management port
         + EJB port

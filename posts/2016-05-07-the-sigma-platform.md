@@ -1,9 +1,4 @@
----
-layout: post
-title:  "Docker 在生产环境的实践"
-date:   2016-05-07
-categories: blog
----
+# Docker 在生产环境的实践
 
 从去年到现在，我们逐渐在生产环境中应用了 docker，支撑了云数据库和分布式数据库两个上层系统。
 

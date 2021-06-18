@@ -1,9 +1,4 @@
----
-layout: post
-title:  "Kubernetes 网络设计 (1)"
-date:   2016-01-23
-categories: blog
----
+# Kubernetes 网络设计 (1)
 
 使用 `--net=host` 来跑应用的限制很多，特别是弹性伸缩，故障恢复都不好做。一个很关键的问题就是主机端口已经被占用了怎么办？那就没法调度到这台主机了。另一个问题，来自于用户体验不好：用户必须指定应用的监听端口；用户与用户之间需要协商端口分配。还有一个问题是，容器的隔离性不好，容器内部的服务不能监听任意端口。
 
@@ -24,6 +19,6 @@ categories: blog
 Kubernetes 的代码修改：
 
 1. `pkg/controller/endpoint/endpoints_controller.go` 修改 `findPort`，如果是 Headless service 则装配映射后的端口！
-1. `hostPort` 的随机分配和持久化！
-1. `PortMapping` 反映到 `pod.Status` 里！
+2. `hostPort` 的随机分配和持久化！
+3. `PortMapping` 反映到 `pod.Status` 里！
 

@@ -1,9 +1,4 @@
----
-layout: post
-title:  "Kubernetes 网络设计 (2)"
-date:   2016-02-29
-categories: blog
----
+# Kubernetes 网络设计 (2)
 
 # 如何搭建覆盖网络
 
@@ -11,7 +6,7 @@ categories: blog
 
 这时，选取 flannel 这种一人项目，能完全掌控。
 
-启动参数就用 
+启动参数就用
 
     -etcd-endpoints="http://etcd1:4001,http://etcd2:4001,http://etcd3:4001"
 

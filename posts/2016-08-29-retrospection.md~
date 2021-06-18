@@ -1,9 +1,4 @@
----
-layout: post
-title:  "复盘"
-date:   2016-08-29
-categories: blog
----
+# 复盘
 
 最近接手了一个 iOS 和 Android 的移动端 SDK 项目，技术不难，而且跟 MFC, Qt 之流差别也不大。于是有时间对过去一年的项目做一个复盘。
 

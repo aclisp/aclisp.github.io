@@ -1,10 +1,4 @@
----
-layout: post
-title:  "集群管理"
-date:   2015-08-18
-summary: "如何实现一个集群管理系统"
-categories: blog
----
+# 集群管理
 
 # 什么是集群管理系统
 
@@ -20,7 +14,7 @@ categories: blog
 
 |          | 单机操作系统 Linux | 集群操作系统 Mesos|
 | -------- | :-----: | :-----: |
-| 隔离机制 | 进程 Process 提供地址空间和文件描述符的隔离 | 容器 LXC 提供CPU, Memory, FileSystem等的隔离 |       
+| 隔离机制 | 进程 Process 提供地址空间和文件描述符的隔离 | 容器 LXC 提供CPU, Memory, FileSystem等的隔离 |
 | 共享机制 | FileSystem, IPC | Distributed-FS, Network |
 | 调度机制 | Process Scheduler 保证多个进程共享几个CPU | 同样有机制保证多个集群应用的每个只占用一小块数据中心资源 |
 | 抽象机制 | read(), write(), open(), bind(), connect() 这些系统调用抽象了不同的硬件和网络 | launchTask(), killTask(), statusUpdate() 这些API抽象了部署位置和远程通信，不再直接跟socket和pid打交道 |
@@ -54,15 +48,15 @@ categories: blog
 
 *   Monolithic
     所有的任务用同一种算法调度。YARN，Borg和Kubernetes都用这种。
-	
+
 *   Statically partitioned
     固定分配，专机专用。基本谈不上调度了。例如Hadoop早期版本（[YARN](http://hadoop.apache.org/docs/current/hadoop-yarn/hadoop-yarn-site/YARN.html)出现之前）。
-    
+
 *   Two-level ([Mesos](http://mesos.apache.org/documentation/latest/mesos-architecture/))
 	中心管理器收集可用资源作为Offer提供给用户，再由用户自定义任务的分配策略。
 
 *   Shared-state ([Omega](http://research.google.com/pubs/pub41684.html))
-    竞争式乐观锁分配。只是Omega的设想，好不好用谁也不知道。 
+    竞争式乐观锁分配。只是Omega的设想，好不好用谁也不知道。
 
 ## 为什么要用 Docker
 

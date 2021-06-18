@@ -1,10 +1,4 @@
----
-layout: post
-title:  "并发设计 (2)"
-date:   2015-06-19
-summary: "异步HTTP服务"
-categories: blog
----
+# 并发设计 (2)
 
 HTTP通信经过了这些演化：
 

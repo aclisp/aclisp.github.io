@@ -1,9 +1,4 @@
----
-layout: post
-title:  "生产环境的 Kubernetes"
-date:   2015-09-27
-categories: blog
----
+# 生产环境的 Kubernetes
 
 按照下面的步骤在一个机房的所有主机上依次安装。
 
@@ -13,14 +8,14 @@ categories: blog
 # 每台主机都要安装
 
 ## 按照官方指引安装 docker，并修改启动参数
-    
-    --iptables=false 
-    --ip-masq=false 
+
+    --iptables=false
+    --ip-masq=false
     --log-level=warn
     --bip=127.0.1.1/24
 
 ## 建立 k8s 配置文件和目录
-    
+
     touch /etc/kubeconfig
     mkdir /etc/manifests
 
@@ -245,8 +240,8 @@ subsets:
 
 # 存活监控
 
-*   kube-proxy 
-    
+*   kube-proxy
+
         curl http://127.0.0.1:10249/healthz
 
 *   kubelet

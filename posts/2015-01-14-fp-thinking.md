@@ -1,9 +1,4 @@
----
-layout: post
-title:  "函数式编程的思考"
-date:   2015-01-14
-categories: blog
----
+# 函数式编程的思考
 
 如今的互联网时代，[函数式编程](http://en.wikipedia.org/wiki/Functional_programming)越来越频繁的进入普通程序员的眼球。这个当年仅仅存在于学术界的玩具，渐渐影响到工业界。到底它是不是从业人员的救星，能够产出高质量代码？在团队开发中，它是否具有可行性、可维护性？我只从一个微小细节，来记录对它的一些感受。
 
@@ -11,11 +6,11 @@ categories: blog
 
 > 在函数式编程中，我们不应该用循环迭代的方式，我们应该用更为高级的方法，
 > 如下所示的Python代码
-> 
+>
 >     name_len = map(len, ["hao", "chen", "coolshell"])
 >     print name_len
->     # 输出 [3, 4, 9] 
-> 
+>     # 输出 [3, 4, 9]
+>
 > 你可以看到这样的代码很易读，因为，__这样的代码是在描述要干什么，而不是怎么干。__
 - [酷壳：函数式编程](http://coolshell.cn/articles/10822.html)
 
@@ -37,7 +32,7 @@ categories: blog
 看 Python 里 `map` 的帮助文档：
 
 >    map(function, sequence[, sequence, ...]) -> list
->    
+>
 >    Return a list of the results of applying the function to the items of
 >    the argument sequence(s).
 
