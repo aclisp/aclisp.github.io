@@ -104,7 +104,7 @@
 [^Dep]: 事实上 Python 的 Project 构建并没有强依赖关系，不像 Java 缺少必要的 jar 则无法成功编译。但是，在构建的时候使用 Pylint 工具进行伪编译，是控制 Large-scale 项目代码质量的最佳实践。
 
 [PyPI]: http://en.wikipedia.org/wiki/Python_Package_Index
-[Series1]: {% post_url 2014-12-29-large-scale-python-1 %}
-[Series2]: {% post_url 2014-12-30-large-scale-python-2 %}
-[Series3]: {% post_url 2014-12-31-large-scale-python-3 %}
+[Series1](2014-12-29-large-scale-python-1.md)
+[Series2](2014-12-30-large-scale-python-2.md)
+[Series3](2014-12-31-large-scale-python-3.md)
 

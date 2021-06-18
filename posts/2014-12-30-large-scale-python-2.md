@@ -17,7 +17,7 @@ Python 以易学易用闻名，但想写出 [Pythonic](http://programmers.stacke
 
 “[类型系统](http://en.wikipedia.org/wiki/Type_system)”是抽象化的基石。对于严谨自洽的基础库，给所有类、函数定义都加上类型约束，不失为一个好的实践：
 
-{% highlight python linenos %}
+```python
 from typing import List
 
 
@@ -48,7 +48,7 @@ def business_func(nodenames: List[str]):
 
 ng = NodeGroup()
 business_func(ng.nodes())
-{% endhighlight %}
+```
 
 这段代码用 [mypy][mypy] 处理会输出：
 
@@ -78,7 +78,7 @@ business_func(ng.nodes())
 
 [mypy]: http://www.mypy-lang.org
 [FP]: http://en.wikipedia.org/wiki/Functional_programming
-[Series1]: {% post_url 2014-12-29-large-scale-python-1 %}
-[Series2]: {% post_url 2014-12-30-large-scale-python-2 %}
-[Series3]: {% post_url 2014-12-31-large-scale-python-3 %}
+[Series1](2014-12-29-large-scale-python-1.md)
+[Series2](2014-12-30-large-scale-python-2.md)
+[Series3](2014-12-31-large-scale-python-3.md)
 

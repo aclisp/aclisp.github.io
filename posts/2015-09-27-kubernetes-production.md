@@ -21,7 +21,7 @@
 
 ## `/etc/kubeconfig` 内容如下
 
-{% highlight yaml %}
+```yaml
 apiVersion: v1
 clusters:
 - cluster:
@@ -43,7 +43,7 @@ users:
   user:
     password: secret
     username: admin
-{% endhighlight %}
+```
 
 ## 安装 k8s 模块到 `/usr/bin`
 
@@ -87,7 +87,7 @@ users:
 
 下列内容存为文件 `/etc/manifests/etcd.yaml`
 
-{% highlight yaml %}
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -120,7 +120,7 @@ spec:
   - hostPath:
       path: /var/lib/etcd
     name: varetcd
-{% endhighlight %}
+```
 
 **注意：**
 
@@ -132,7 +132,7 @@ spec:
 
 下列内容存为文件 `/etc/manifests/kube-apiserver.yaml`
 
-{% highlight yaml %}
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -154,13 +154,13 @@ spec:
     - containerPort: 6443
       hostPort: 6443
       name: http
-{% endhighlight %}
+```
 
 ## kube-controller-manager
 
 下列内容存为文件 `/etc/manifests/kube-controller-manager.yaml`
 
-{% highlight yaml %}
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -181,13 +181,13 @@ spec:
   - hostPath:
       path: /etc/kubeconfig
     name: kubeconfig
-{% endhighlight %}
+```
 
 ## kube-scheduler
 
 下列内容存为文件 `/etc/manifests/kube-scheduler.yaml`
 
-{% highlight yaml %}
+```yaml
 apiVersion: v1
 kind: Pod
 metadata:
@@ -208,13 +208,13 @@ spec:
   - hostPath:
       path: /etc/kubeconfig
     name: kubeconfig
-{% endhighlight %}
+```
 
 ## 配置服务
 
 ### 对内的 etcd 服务
 
-{% highlight yaml %}
+```yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -223,9 +223,9 @@ spec:
   ports:
   - port: 4001
     protocol: TCP
-{% endhighlight %}
+```
 
-{% highlight yaml %}
+```yaml
 apiVersion: v1
 kind: Endpoints
 metadata:
@@ -236,7 +236,7 @@ subsets:
   ports:
   - port: 4001
     protocol: TCP
-{% endhighlight %}
+```
 
 # 存活监控
 

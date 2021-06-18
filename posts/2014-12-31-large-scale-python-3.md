@@ -41,6 +41,6 @@ Python 使用基于引用计数的 GC。官方 FAQ 里有一些[思考](https://
 [^e3]: [Stanley B. Lippman. _Inside the C++ Object Model_](http://book.douban.com/subject/1484262/)
 [^e4]: ["Python Is Not Java"](http://dirtsimple.org/2004/12/python-is-not-java.html)
 
-[Series1]: {% post_url 2014-12-29-large-scale-python-1 %}
-[Series2]: {% post_url 2014-12-30-large-scale-python-2 %}
-[Series3]: {% post_url 2014-12-31-large-scale-python-3 %}
+[Series1](2014-12-29-large-scale-python-1.md)
+[Series2](2014-12-30-large-scale-python-2.md)
+[Series3](2014-12-31-large-scale-python-3.md)

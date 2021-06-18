@@ -56,7 +56,7 @@ Push configuration JSON to etcd.
 * `10.10.1.0/24` 预留给 service_cluster_ip_range
 * `10.10.10.0/24` 至 `10.10.255.0/24` 预留给 Node
 
-{% highlight json %}
+```json
 {
     "Network": "10.10.0.0/16",
     "SubnetLen": 24,
@@ -67,7 +67,7 @@ Push configuration JSON to etcd.
         "Port": 7890
     }
 }
-{% endhighlight %}
+```
 
     etcdctl --peers=$MASTER_IP:4001 set /coreos.com/network/config "$(<flanneld.json)"
     etcdctl --peers=$MASTER_IP:4001 ls --recursive -p

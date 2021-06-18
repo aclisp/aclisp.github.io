@@ -5,17 +5,17 @@
 * 提供的函数可以是一个闭包，捕获了上下文中的变量。
 * 提供的函数是被“别人”调用的。可能是后台线程池里的一个线程。
 
-{% highlight javascript %}
+```javascript
 var name = "Jared";
 getJSONFile("http://...", function(data) {
     var config = JSON.parse(data);
     // the closure can use `name`
 });
-{% endhighlight %}
+```
 
 考虑到错误处理，上面的代码会变得复杂，可读性变差。
 
-{% highlight javascript %}
+```javascript
 getJSONFile("http://...", function(err, data) {
     if (err) {
         // handle error, which is NOT the most important things.
@@ -23,24 +23,24 @@ getJSONFile("http://...", function(err, data) {
         // important things indent an extra level.
     }
 });
-{% endhighlight %}
+```
 
 考虑到更多现实情况，我们需要处理错误，超时，取消，成功四种。参数过多， 可以考虑把参数打包成一个Object。
 
-{% highlight javascript %}
+```javascript
 getJSONFile("http://...", function(err, isTimeout, isCanceled, data) {
 });
-{% endhighlight %}
+```
 
 当然，一个更好的重构是提供多个回调参数。
 
-{% highlight javascript %}
+```javascript
 getJSONFile("http://...", success, error, timedOut);
-{% endhighlight %}
+```
 
 这个思想已经很接近Future模式了。
 
-{% highlight javascript %}
+```javascript
 var futureFile = getJSONFile(url);
 futureFile.then(function(data) {
     // handle success
@@ -51,7 +51,7 @@ futureFile.then(function(data) {
 });
 // If canceled, none of above happens.
 futureFile.cancel();
-{% endhighlight %}
+```
 
 Future模式远比使用者看到的界面要复杂。
 
